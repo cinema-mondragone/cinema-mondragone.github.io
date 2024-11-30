@@ -1,0 +1,15 @@
+<a class="border rounded-lg flex items-center gap-4" href="<%= @resource.relative_url %>">
+  <img class="w-36 h-48 object-cover rounded-s-lg" src="<%= @resource.data.img %>" alt="<%= @resource.data.titolo %>" />
+
+  <div class="grid gap-4"">
+    <h3 class="font-bold"><%= @resource.data.titolo %></h3>
+    <div class="flex space-x-2">
+      <%= render DateBadge.new(date: date) %>
+    </div>
+    <div class="flex space-x-2">
+      <%- @resource.data.orari.each do |time| %>
+        <%= render TimeBadge.new(time: time) %>
+      <% end %>
+    </div>
+  </div>
+</a>
