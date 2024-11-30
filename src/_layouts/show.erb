@@ -1,0 +1,24 @@
+---
+layout: default
+---
+
+<div class="mx-auto flex flex-col items-center md:flex-row md:max-w-xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+  <img class="object-cover w-full h-96 md:w-64 md:h-96 rounded-lg" src="<%= @resource.data.img %>" alt="<%= @resource.data.titolo %>">
+
+  <div class="flex flex-col justify-between md:w-full p-4 leading-normal">
+    <h1 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= @resource.data.titolo %></h5>
+    <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"><%= yield %></p>
+    <div class="flex space-x-2">
+      <%- date = DateRangeFormatter.new(from: @resource.data.dal, to: @resource.data.al).formatted_date_range %>
+      <%= render DateBadge.new(date: date) %>
+    </div>
+    <div class="flex mt-4 space-x-2">
+      <%- @resource.data.orari.each do |time| %>
+        <%= render TimeBadge.new(time: time) %>
+      <% end %>
+    </div>
+    <%- if @resource.data.note %>
+      <p class="font-small font-serif font-light"><%= @resource.data.note %></p>
+    <% end %>
+  </div>
+</div>
