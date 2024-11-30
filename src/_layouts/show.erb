@@ -1,0 +1,9 @@
+---
+layout: default
+---
+
+<div class="mx-auto">
+  <%= render Card.new(resource: resource) do %>
+    <%= yield %>
+  <% end %>
+</div>
