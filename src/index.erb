@@ -1,0 +1,38 @@
+---
+layout: default
+title: Spettacoli
+---
+
+<div class="max-w-3xl mx-auto">
+  <h1 class="text-2xl text-center font-bold mb-6"><%= resource.data.title %></h1>
+  <div class="grid gap-4">
+    <%- collections.spettacoli.resources.select { |e| Date.parse(e.data.al) >= Date.today }.sort { |a, b| Date.parse(a.data.dal) <=> Date.parse(b.data.dal) }.each do |listing| %> 
+      <a href="<%= listing.relative_url %>">
+        <div class="border rounded-lg p-4 flex items-center gap-4">
+          <img alt="<%= listing.data.titolo %>" class="w-16 h-24 object-cover rounded" src="<%= listing.data.img %>" />
+          <div class="flex-1">
+            <h3 class="font-bold"><%= listing.data.titolo %></h3>
+            <div class="mt-4 flex space-x-2">
+              <span class="bg-gray-100 text-gray-800 text-sm font-medium inline-flex items-center px-2 5 py-0 5 rounded me-2 dark:bg-gray-700 dark:text-gray-400 border border-gray-500">
+                <svg aria-hidden="true" class="w-[16px] h-[16px] mr-1.5 text-gray-800 dark:text-white" fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <%= DateRangeFormatter.new(from: listing.data.dal, to: listing.data.al).formatted_date_range %>
+              </span>
+            </div>
+            <div class="mt-4 flex space-x-2">
+              <%- listing.data.orari.each do |time| %>
+                <span class="bg-gray-100 text-blue-800 text-sm font-medium inline-flex items-center px-2 5 py-0 5 rounded me-2 dark:bg-blue-700 dark:text-blue-400 border border-blue-500">
+                  <svg aria-hidden="true" class="w-2.5 h-2.5 mr-1.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"></path>
+                  </svg>
+                  <%= time %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </a>
+    <% end %>
+  </div>
+</div>

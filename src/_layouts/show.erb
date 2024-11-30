@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="<%= site.locale %>">
+  <head>
+    <%= render "head", metadata: site.metadata, title: data.title %>
+  </head>
+  <body class="<%= data.layout %> <%= data.page_class %>">
+    <%= render Shared::Navbar.new(metadata: site.metadata, resource: resource) %>
+
+    <main class="main container mx-auto md:mt-3 mb-3 px-3 flex">
+      <div class="mx-auto flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl dark:border-gray-700 dark:bg-gray-800">
+        <img class="object-cover w-full rounded-t-lg h-110 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg" src="<%= data.img %>" alt="">
+        <div class="flex flex-col justify-between p-4 leading-normal">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><%= data.titolo %></h5>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"><%= yield %></p>
+        </div>
+      </div>
+    </main>
+
+    <% render "footer", metadata: site.metadata %>
+  </body>
+</html>
