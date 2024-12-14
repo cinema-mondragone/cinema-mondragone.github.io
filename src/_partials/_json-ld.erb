@@ -1,0 +1,55 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MovieTheater",
+    "name": "<%= metadata.title %>",
+    "url": "<%= metadata.website %>",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "<%= metadata.street_address %>",
+      "addressLocality": "<%= metadata.city %>",
+      "addressRegion": "<%= metadata.province %>",
+      "postalCode": "<%= metadata.postal_code %>",
+      "addressCountry": "<%= metadata.country %>"
+    },
+    "telephone": "<%= metadata.phone %>",
+    "screeningRoom": {
+      "@type": "ScreeningRoomType",
+      "name": "Sala Principale",
+      "totalSeatingCapacity": "<%= metadata.total_seats %>"
+    },
+    "event": [
+<%- collections.spettacoli.resources.select { |resource| Date.parse(resource.data.al) >= Date.today }
+                              .sort { |a, b| Date.parse(a.data.dal) <=> Date.parse(b.data.dal) }
+                              .each do |resource| %>
+  <%- if resource.data.dal != resource.data.al %>
+    <%- (Date.parse(resource.data.dal)..Date.parse(resource.data.al)).each do |day| %>
+      <%- next if day < Date.today %>
+      <%- resource.data.orari.each do |time| %>
+      {
+        "@type": "MovieScreening",
+        "name": "<%= resource.data.titolo %>",
+        "startDate": "<%= day %>T<%= time %>:00+01:00",
+        "location": {
+          "@type": "ScreeningRoomType",
+          "name": "Sala Principale"
+        }
+      },
+      <% end %>
+    <% end %>
+  <%- else %>
+      {
+        "@type": "TheaterPlay",
+        "name": "<%= resource.data.titolo %>",
+        "startDate": "<%= Date.parse(resource.data.dal) %>T<%= resource.data.orari.first%>:00+02:00",
+        "endDate": "<%= Date.parse(resource.data.dal) %>T23:00:00+01:00",
+        "location": {
+          "@type": "ScreeningRoomType",
+          "name": "Sala Principale"
+        }
+      },
+  <% end %>
+<% end %>
+    ]
+  }
+</script>
